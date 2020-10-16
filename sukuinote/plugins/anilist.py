@@ -4,7 +4,7 @@ from pyrogram.types.messages_and_media import Photo
 from pyrogram.errors.exceptions.forbidden_403 import Forbidden
 from .. import slave, config, help_dict, log_errors, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['anilist', 'al', 'alc', 'alchar', 'alcharacter', 'anilistc', 'anilistchar', 'anilistcharacter'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['anilist', 'al', 'alc', 'alchar', 'alcharacter', 'anilistc', 'anilistchar', 'anilistcharacter'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def anilist(client, message):

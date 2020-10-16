@@ -2,7 +2,7 @@ import html
 from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['d', 'del', 'delete'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['d', 'del', 'delete'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def delete(client, message):
@@ -12,7 +12,7 @@ async def delete(client, message):
         messages.add(reply.message_id)
     await client.delete_messages(message.chat.id, messages)
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['p', 'purge', 'sp', 'selfpurge'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['p', 'purge', 'sp', 'selfpurge'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def purge(client, message):
@@ -27,7 +27,7 @@ async def purge(client, message):
     await client.delete_messages(message.chat.id, ids)
 
 yeetpurge_info = {True: dict(), False: dict()}
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['yp', 'yeetpurge', 'syp', 'selfyeetpurge'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['yp', 'yeetpurge', 'syp', 'selfyeetpurge'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def yeetpurge(client, message):

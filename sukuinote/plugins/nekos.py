@@ -18,7 +18,7 @@ for i in json:
             if 'v3' in i:
                 continue
             def _generate(i):
-                @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(i, prefixes=config['config']['prefixes']))
+                @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(i, prefixes=config['config']['prefixes']))
                 @log_errors
                 @public_log_errors
                 async def func(client, message):

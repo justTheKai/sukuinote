@@ -45,7 +45,7 @@ DEAI_MODULE_CODES = {
     "8": "Codename Gestapo"
 }
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['einfo', 'externalinfo', 'sw', 'spamwatch', 'deai', 'sp', 'spamprotection', 'cas', 'combot', 'rose'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['einfo', 'externalinfo', 'sw', 'spamwatch', 'deai', 'sp', 'spamprotection', 'cas', 'combot', 'rose'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def fedstat(client, message):

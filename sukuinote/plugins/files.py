@@ -4,7 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 from .. import config, help_dict, log_errors, session, progress_callback, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['ls', 'hls', 'hiddenls'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['ls', 'hls', 'hiddenls'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def ls(client, message):
@@ -28,7 +28,7 @@ async def ls(client, message):
             text += f'<code>{html.escape(i)}</code>\n'
     await message.reply_text(text or 'Empty', disable_web_page_preview=True)
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['ul', 'upload'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['ul', 'upload'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def upload(client, message):
@@ -44,7 +44,7 @@ async def upload(client, message):
     else:
         await reply.delete()
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['dl', 'download'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['dl', 'download'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def download(client, message):

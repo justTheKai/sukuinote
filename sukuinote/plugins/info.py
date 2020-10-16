@@ -26,7 +26,7 @@ def _generate_sexy(entity, ping):
         sexy_text += ' <code>[SCAM]</code>'
     return sexy_text
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['info', 'whois'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['info', 'whois'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def info(client, message):
@@ -61,7 +61,7 @@ async def info(client, message):
     if text_ping != text_unping:
         await reply.edit_text(text_ping, disable_web_page_preview=True)
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command('id', prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command('id', prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def id(client, message):

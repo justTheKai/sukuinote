@@ -6,7 +6,7 @@ from .. import config, help_dict, log_errors, public_log_errors
 PROBLEM_CODES = set(i for i in googletrans.LANGUAGES if '-' in i)
 translator = googletrans.Translator()
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.outgoing & filters.command(['tr', 'translate'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['tr', 'translate'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def translate(client, message):
