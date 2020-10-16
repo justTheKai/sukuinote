@@ -1,3 +1,4 @@
+googletrans
 pyrogram
 tgcrypto
 requests
