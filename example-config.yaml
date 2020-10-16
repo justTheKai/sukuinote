@@ -1,0 +1,16 @@
+telegram:
+    api_id: 0
+    api_hash: https://my.telegram.org
+    slave_bot_token: https://t.me/BotFather
+config:
+    prefixes:
+        - .
+    sessions:
+        - blankie
+        - knees
+        - nezuko
+    log_chat: -1001278205033
+    spamwatch_api: https://t.me/SpamWatchBot
+    log_user_joins: false
+    log_user_adds: true
+    log_reports: true
