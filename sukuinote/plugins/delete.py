@@ -39,10 +39,12 @@ async def purge(client, message):
             async for i in client.iter_history(message.chat.id, offset=1, limit=command):
                 ids.add(i.message_id)
     elif not getattr(reply, 'empty', True):
+        if not (selfpurge and not reply.outgoing):
+            ids.add(reply.message_id)
         async for i in client.iter_history(message.chat.id, offset=1):
             if not (selfpurge and not i.outgoing):
                 ids.add(i.message_id)
-            if reply.message_id >= i.message_id:
+            if reply.message_id + 1 >= i.message_id:
                 break
     await client.delete_messages(message.chat.id, ids)
 
@@ -58,17 +60,19 @@ async def yeetpurge(client, message):
     info = yeetpurge_info['s' in message.command[0]]
     if message.chat.id not in info:
         resp = await message.reply_text('Reply to end destination')
-        info[message.chat.id] = (message.message_id, resp.message_id, reply.message_id)
+        info[message.chat.id] = (message.message_id, resp.message_id, reply.message_id, reply.outgoing)
         return
-    og_message, og_resp, og_reply = info.pop(message.chat.id)
+    og_message, og_resp, og_reply, og_reply_outgoing = info.pop(message.chat.id)
     messages = set((og_message, og_resp, message.message_id))
     thing = [og_reply, reply.message_id]
     thing.sort()
     thing0, thing1 = thing
+    if not ('s' in message.command[0] and not og_reply_outgoing):
+        messages.add(og_reply)
     async for i in client.iter_history(message.chat.id, offset_id=thing1 + 1):
         if not ('s' in message.command[0] and not i.outgoing):
             messages.add(i.message_id)
-        if thing0 >= i.message_id:
+        if thing0 + 1 >= i.message_id:
             break
     await client.delete_messages(message.chat.id, messages)
 
