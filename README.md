@@ -10,5 +10,5 @@ A helping hand that has multiple accounts and a slave attached
 3. Copy example-config.yaml to config.yaml and edit it
 
 ### Start
-`python3 -m sukuinote`
+`python3 -m sukuinote`  
 After that, send .help somewhere and have fun :D
