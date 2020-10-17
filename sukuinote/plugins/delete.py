@@ -26,7 +26,7 @@ async def purge(client, message):
     reply = message.reply_to_message
     if command.isnumeric():
         async for i in client.search_messages(message.chat.id, limit=int(command), offset=1, from_user=selfpurge):
-            ids.add(i,message_id)
+            ids.add(i.message_id)
     elif not getattr(reply, 'empty', True):
         async for i in client.search_messages(message.chat.id, offset=1, from_user=selfpurge):
             ids.add(i.message_id)
