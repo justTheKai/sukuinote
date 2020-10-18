@@ -90,8 +90,9 @@ async def generate_media(anilist):
     site_url = anilist['siteUrl']
     next_airing_episode = anilist['airingSchedule']
     if next_airing_episode:
-        if next_airing_episode['nodes']:
-            next_airing_episode = next_airing_episode['nodes'][0]
+        next_airing_episode = next_airing_episode['nodes']
+        if next_airing_episode:
+            next_airing_episode = next_airing_episode[0]
     text = f'<a href="{site_url}">{title_romaji}</a>'
     if title_english:
         text += f' ({title_english})'
