@@ -112,10 +112,8 @@ async def generate_media(anilist):
         text += f'<b>Average Score:</b> {average_score}%\n'
     if episodes:
         text += f'<b>Episodes:</b> '
-        if anilist['airingSchedule']:
-            for i in anilist['airingSchedule']['nodes']:
-                if i['airingAt'] == anilist['nextAiringEpisode']['airingAt']:
-                    text += f'{i["episode"] - 1}/'
+        if anilist['airingSchedule'] and anilist['airingSchedule']['nodes']:
+            text += f'{anilist["airingSchedule"]["nodes"][0]["episode"] - 1}/'
         text += f'{episodes}\n'
     if duration:
         text += f'<b>Duration:</b> {duration} minutes per episode\n'
