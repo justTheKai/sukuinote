@@ -31,13 +31,10 @@ MEDIA_QUERY = '''query ($id: Int, $search: String) {
       genres
       synonyms
       averageScore
-      nextAiringEpisode {
-        airingAt
-        timeUntilAiring
-      }
       airingSchedule(notYetAired: true) {
         nodes {
           airingAt
+          timeUntilAiring
           episode
         }
       }
@@ -91,6 +88,10 @@ async def generate_media(anilist):
     synonyms = ', '.join(anilist['synonyms'])
     average_score = anilist['averageScore']
     site_url = anilist['siteUrl']
+    next_airing_episode = anilist['airingSchedule']
+    if next_airing_episode:
+        if next_airing_episode['nodes']:
+            next_airing_episode = next_airing_episode['nodes'][0]
     text = f'<a href="{site_url}">{title_romaji}</a>'
     if title_english:
         text += f' ({title_english})'
@@ -105,16 +106,15 @@ async def generate_media(anilist):
         text += f'<b>Format:</b> {format}\n'
     text += f'<b>Status:</b> {status}\n'
     if anilist['nextAiringEpisode']:
-        airing_at = str(datetime.datetime.fromtimestamp(anilist['nextAiringEpisode']['airingAt']))
-        time_until_airing = str(datetime.timedelta(seconds=anilist['nextAiringEpisode']['timeUntilAiring']))
+        airing_at = str(datetime.datetime.fromtimestamp(next_airing_episode['airingAt']))
+        time_until_airing = str(datetime.timedelta(seconds=next_airing_episode['timeUntilAiring']))
         text += f'<b>Airing At:</b> {airing_at}\n<b>Airing In:</b> {time_until_airing}\n'
     if average_score is not None:
         text += f'<b>Average Score:</b> {average_score}%\n'
     if episodes:
         text += f'<b>Episodes:</b> '
-        if anilist['airingSchedule']:
-            if anilist['airingSchedule']['nodes']:
-                text += f'{anilist["airingSchedule"]["nodes"][0]["episode"] - 1}/'
+        if next_airing_episode:
+            text += f'{next_airing_episode["episode"] - 1}/'
         text += f'{episodes}\n'
     if duration:
         text += f'<b>Duration:</b> {duration} minutes per episode\n'
