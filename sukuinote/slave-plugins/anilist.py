@@ -112,7 +112,7 @@ async def generate_media(anilist):
         text += f'<b>Average Score:</b> {average_score}%\n'
     if episodes:
         text += f'<b>Episodes:</b> '
-        if anilist['airingSchedule']
+        if anilist['airingSchedule']:
             if anilist['airingSchedule']['nodes']:
                 text += f'{anilist["airingSchedule"]["nodes"][0]["episode"] - 1}/'
         text += f'{episodes}\n'
