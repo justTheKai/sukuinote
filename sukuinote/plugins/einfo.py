@@ -45,7 +45,7 @@ DEAI_MODULE_CODES = {
     "8": "Codename Gestapo"
 }
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['einfo', 'externalinfo', 'sw', 'spamwatch', 'deai', 'sp', 'spamprotection', 'cas', 'combot', 'rose'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['einfo', 'externalinfo', 'sw', 'spamwatch', 'deai', 'spb', 'spamprotection', 'cas', 'combot', 'rose'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def fedstat(client, message):
@@ -60,7 +60,7 @@ async def fedstat(client, message):
         entity, entity_client = await get_entity(client, entity)
     if not isinstance(entity, str):
         entity = str(entity.id)
-    if entity.startswith('TEL-') or int(entity) < 0 or command in ('sp', 'spamprotection'):
+    if entity.startswith('TEL-') or int(entity) < 0 or command in ('spb', 'spamprotection'):
         await message.reply_text(f'Spam Protection:\n{await get_spam_protection(entity)}')
     elif command in ('sw', 'spamwatch'):
         await message.reply_text(f'Spamwatch:\n{await get_spamwatch(entity)}')
@@ -206,4 +206,4 @@ Aliases: {prefix}combot
 
 {prefix}spamprotection <i>&lt;user&gt;</i> - Get Spam Protection info of <i>&lt;user&gt;</i>
 {prefix}spamprotection <i>(as reply to message)</i> - Get Spam Protection info of replied user
-Aliases: {prefix}sp''')
+Aliases: {prefix}spb''')
