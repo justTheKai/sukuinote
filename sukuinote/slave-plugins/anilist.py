@@ -105,7 +105,7 @@ async def generate_media(anilist):
     if anilist['type'] != 'MANGA':
         text += f'<b>Format:</b> {format}\n'
     text += f'<b>Status:</b> {status}\n'
-    if anilist['nextAiringEpisode']:
+    if next_airing_episode:
         airing_at = str(datetime.datetime.fromtimestamp(next_airing_episode['airingAt']))
         time_until_airing = str(datetime.timedelta(seconds=next_airing_episode['timeUntilAiring']))
         text += f'<b>Airing At:</b> {airing_at}\n<b>Airing In:</b> {time_until_airing}\n'
