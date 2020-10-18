@@ -35,6 +35,12 @@ MEDIA_QUERY = '''query ($id: Int, $search: String) {
         airingAt
         timeUntilAiring
       }
+      airingSchedule(notYetAired: true) {
+        nodes {
+          airingAt
+          episode
+        }
+      }
       siteUrl
     }
   }
@@ -105,7 +111,12 @@ async def generate_media(anilist):
     if average_score is not None:
         text += f'<b>Average Score:</b> {average_score}%\n'
     if episodes:
-        text += f'<b>Episodes:</b> {episodes}\n'
+        text += f'<b>Episodes:</b> '
+        if anilist['airingSchedule']:
+            for i in anilist['airingSchedule']['nodes']:
+                if i['airingAt'] == anilist['nextAiringEpisode']['airingAt']:
+                    text += f'{i["episode"] - 1}/'
+        text += f'{episodes}\n'
     if duration:
         text += f'<b>Duration:</b> {duration} minutes per episode\n'
     if chapters:
