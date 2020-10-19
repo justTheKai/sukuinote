@@ -112,11 +112,11 @@ async def generate_media(anilist):
         text += f'<b>Airing At:</b> {airing_at}\n<b>Airing In:</b> {time_until_airing}\n'
     if average_score is not None:
         text += f'<b>Average Score:</b> {average_score}%\n'
-    if episodes:
+    if episodes or next_airing_episode:
         text += f'<b>Episodes:</b> '
         if next_airing_episode:
             text += f'{next_airing_episode["episode"] - 1}/'
-        text += f'{episodes}\n'
+        text += f'{"???" if episodes is None else episodes}\n'
     if duration:
         text += f'<b>Duration:</b> {duration} minutes per episode\n'
     if chapters:
