@@ -54,7 +54,7 @@ yeetpurge_info = {True: dict(), False: dict()}
 @public_log_errors
 async def yeetpurge(client, message):
     reply = message.reply_to_message
-    if getattr(message, 'empty', True):
+    if getattr(reply, 'empty', True):
         await message.delete()
         return
     info = yeetpurge_info['s' in message.command[0]]
