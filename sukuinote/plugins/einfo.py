@@ -136,8 +136,12 @@ async def get_deai(client, entity):
                     text += f'--- {i}\n'
             text += f'- <b>Risk Factor:</b> {match.group(2).capitalize()}\n'
             text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}'
-            if (match.group(4) or '').strip():
-                text += f'\n- <b>Comment:</b> {html.escape(match.group(4).strip())}'
+            comment = (match.group(4) or '').strip()
+            if comment:
+                text += f'\n- <b>Comment:</b> {html.escape(comment)}'
+                match = re.match(r'^banstack trigger:0x(\d{2})$', comment)
+                if match:
+                    text += f'\n- <b>Banstack Trigger Code:</b> {DEAI_BAN_CODES.get(match.group(1), "0x" + match.group(1))}'
         return text
     return '- <b>404:</b> Not Found'
 
