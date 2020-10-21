@@ -23,14 +23,16 @@ async def translate(client, message):
     lang = ' '.join(message.command[1:]).lower()
     for i in PROBLEM_CODES:
         if lang.startswith(i):
-            src_lang = i
-            lang = lang[len(i):]
+            lang = lang[len(i) + 1:]
             if lang:
-                dest_lang = lang[1:] or 'en'
+                src_lang = i
+                dest_lang = lang
+            else:
+                dest_lang = i
             break
     else:
         lang = lang.split('-', 1)
-        if len(lang) == 1:
+        if len(lang) == 1 or not lang[-1]:
             dest_lang = lang.pop(0) or dest_lang
         else:
             src_lang, dest_lang = lang
