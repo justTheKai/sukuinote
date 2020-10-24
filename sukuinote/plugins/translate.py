@@ -4,7 +4,6 @@ from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors
 
 PROBLEM_CODES = set(i for i in googletrans.LANGUAGES if '-' in i)
-translator = googletrans.Translator()
 
 @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['tr', 'translate'], prefixes=config['config']['prefixes']))
 @log_errors
@@ -37,7 +36,7 @@ async def translate(client, message):
         else:
             src_lang, dest_lang = lang
     def _translate():
-        return translator.translate(text, src=src_lang, dest=dest_lang)
+        return googletrans.Translator().translate(text, src=src_lang, dest=dest_lang)
     await message.reply_text((await client.loop.run_in_executor(None, _translate)).text, parse_mode=None)
 
 help_dict['translate'] = ('Translate',
