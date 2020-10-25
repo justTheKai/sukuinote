@@ -118,7 +118,7 @@ async def generate_media(anilist):
             text += f'{next_airing_episode["episode"] - 1}/'
         text += f'{"???" if episodes is None else episodes}\n'
     if duration:
-        text += f'<b>Duration:</b> {duration} minutes{" per episode" if aniist["format"] != "MOVIE" else ""}\n'
+        text += f'<b>Duration:</b> {duration} minutes{" per episode" if anilist["format"] != "MOVIE" else ""}\n'
     if chapters:
         text += f'<b>Chapters:</b> {chapters}\n'
     if volumes:
