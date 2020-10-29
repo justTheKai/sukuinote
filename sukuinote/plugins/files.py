@@ -48,7 +48,7 @@ async def upload(client, message):
 @log_errors
 @public_log_errors
 async def download(client, message):
-    file = os.path.expanduser(' '.join(message.command[1:]) or './')
+    file = os.path.abspath(os.path.expanduser(' '.join(message.command[1:]) or './'))
     if os.path.isdir(file):
         file = os.path.join(file, '')
     available_media = ("audio", "document", "photo", "sticker", "animation", "video", "voice", "video_note")
