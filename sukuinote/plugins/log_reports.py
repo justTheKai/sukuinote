@@ -48,17 +48,21 @@ async def log_reports(client, message):
         reply = message.reply_to_message
         if not getattr(reply, 'empty', True):
             text += '\n- <b>Reportee:</b> '
-            user_text = message.reply_to_message.from_user.first_name
-            if message.reply_to_message.from_user.last_name:
-                user_text += f' {message.reply_to_message.from_user.last_name}'
-            user_text = '<code>[DELETED]</code>' if message.from_user.is_deleted else html.escape(user_text or 'Empty???')
-            if message.reply_to_message.from_user.is_verified:
-                user_text += ' <code>[VERIFIED]</code>'
-            if message.reply_to_message.from_user.is_support:
-                user_text += ' <code>[SUPPORT]</code>'
-            if message.reply_to_message.from_user.is_scam:
-                user_text += ' <code>[SCAM]</code>'
-            text += f'{user_text} [<code>{message.reply_to_message.from_user.id}</code>]\n- <b><a href="{message.reply_to_message.link}">Reported Message'
+            if message.reply_to_message.from_user:
+                user_text = message.reply_to_message.from_user.first_name
+                if message.reply_to_message.from_user.last_name:
+                    user_text += f' {message.reply_to_message.from_user.last_name}'
+                user_text = '<code>[DELETED]</code>' if message.from_user.is_deleted else html.escape(user_text or 'Empty???')
+                if message.reply_to_message.from_user.is_verified:
+                    user_text += ' <code>[VERIFIED]</code>'
+                if message.reply_to_message.from_user.is_support:
+                    user_text += ' <code>[SUPPORT]</code>'
+                if message.reply_to_message.from_user.is_scam:
+                    user_text += ' <code>[SCAM]</code>'
+                user_text += f' [<code>{message.reply_to_message.from_user.id}</code>]'
+            else:
+                user_text = 'None???'
+            text += f'{user_text}\n- <b><a href="{message.reply_to_message.link}">Reported Message'
             mtext = message.reply_to_message.text or message.reply_to_message.caption or ''
             if mtext.strip():
                 text += ':'
