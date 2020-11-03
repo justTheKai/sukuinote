@@ -8,10 +8,10 @@ lock = asyncio.Lock()
 
 @Client.on_message(filters.incoming & filters.forwarded & (filters.group | filters.channel))
 @log_errors
-async def log_reports(client, message):
+async def log_forwards(client, message):
     if not config['config'].get('log_forwards'):
         return
-    if message.from_user.id in app_user_ids:
+    if not message.from_user or message.from_user.id in app_user_ids:
         return
     for i in app_user_ids:
         if message.forward_from:
@@ -59,7 +59,7 @@ async def log_reports(client, message):
         text += '</a></b>'
         if mtext:
             text += f' {html.escape(mtext.strip()[:2000])}'
-        text += '- <b>Forwardee:</b> '
+        text += '\n- <b>Forwardee:</b> '
         user_text = forwardee.first_name
         if forwardee.last_name:
             user_text += f' {forwardee.last_name}'
