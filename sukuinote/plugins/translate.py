@@ -42,7 +42,7 @@ async def translate(client, message):
                 return googletrans.Translator().translate(text, src=src_lang, dest=dest_lang)
             except AttributeError:
                 time.sleep(0.5)
-    result = await client.loop.run_in_executor(None, translate)
+    result = await client.loop.run_in_executor(None, _translate)
     if result.text == text:
         text = 'They\'re the same'
     else:
