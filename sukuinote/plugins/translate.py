@@ -1,3 +1,4 @@
+import time
 import html
 import googletrans
 from pyrogram import Client, filters
@@ -36,8 +37,17 @@ async def translate(client, message):
         else:
             src_lang, dest_lang = lang
     def _translate():
-        return googletrans.Translator().translate(text, src=src_lang, dest=dest_lang)
-    await message.reply_text((await client.loop.run_in_executor(None, _translate)).text, parse_mode=None)
+        while True:
+            try:
+                return googletrans.Translator().translate(text, src=src_lang, dest=dest_lang)
+            except AttributeError:
+                time.sleep(0.5)
+    result = await client.loop.run_in_executor(None, translate)
+    if result.text == text:
+        text = 'They\'re the same'
+    else:
+        text = f'Translated from {result.src} to {result.dest}:\n{result.text[:4000]}'
+    await message.reply_text(text, parse_mode=None)
 
 help_dict['translate'] = ('Translate',
 '''{prefix}translate <i>(as reply to text)</i> <i>[src]-[dest]</i> - Translates text and stuff
