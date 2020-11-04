@@ -63,7 +63,7 @@ async def fedstat(client, message):
     if entity.startswith('TEL-') or int(entity) < 0 or command in ('spb', 'spamprotection'):
         await message.reply_text(f'Spam Protection:\n{await get_spam_protection(entity)}')
     elif command in ('sw', 'spamwatch'):
-        await message.reply_text(f'Spamwatch:\n{await get_spamwatch(entity)}')
+        await message.reply_text(f'SpamWatch:\n{await get_spamwatch(entity)}')
     elif command == 'deai':
         await message.reply_text(f'DEAI:\n{await get_deai(client, entity)}')
     elif command == 'rose':
@@ -72,7 +72,7 @@ async def fedstat(client, message):
         await message.reply_text(f'CAS:\n{await get_cas(entity)}')
     else:
         spamwatch, deai, cas, spam_protection, rose = await asyncio.gather(get_spamwatch(entity), get_deai(client, entity), get_cas(entity), get_spam_protection(entity), get_rose(client, entity))
-        await message.reply_text(f'''Spamwatch:
+        await message.reply_text(f'''SpamWatch:
 {spamwatch}
 
 CAS:
@@ -194,8 +194,8 @@ help_dict['einfo'] = ('External Info',
 {prefix}externalinfo <i>(as reply to message)</i> - Get extended info of replied user
 Aliases: {prefix}extinfo, {prefix}einfo
 
-{prefix}spamwatch <i>&lt;user&gt;</i> - Get Spamwatch info of <i>&lt;user&gt;</i>
-{prefix}spamwatch <i>(as reply to message)</i> - Get Spamwatch info of replied user
+{prefix}spamwatch <i>&lt;user&gt;</i> - Get SpamWatch info of <i>&lt;user&gt;</i>
+{prefix}spamwatch <i>(as reply to message)</i> - Get SpamWatch info of replied user
 Aliases: {prefix}sw
 
 {prefix}cas <i>&lt;user&gt;</i> - Get Combot Anti Spam info of <i>&lt;user&gt;</i>
