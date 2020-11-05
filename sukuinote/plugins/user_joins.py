@@ -35,7 +35,11 @@ async def log_user_joins(client, update, users, chats):
                     raise ContinuePropagation
                 if not is_join and not config['config']['log_user_adds']:
                     raise ContinuePropagation
-                text = f"<b>{'User Join Event' if is_join else 'User Add Event'}</b>\n- <b>Chat:</b> {html.escape(chats[chat_id].title)} [<code>{sexy_chat_id}</code>]\n"
+                text = f"<b>{'User Join Event' if is_join else 'User Add Event'}</b>\n- <b>Chat:</b> "
+                atext = html.escape(chats[chat_id].title)
+                if getattr(chats[chat_id], 'username', None):
+                    atext = f'<a href="https://t.me/{chats[chat_id].username}">atext</a>'
+                text += f"{atext} [<code>{sexy_chat_id}</code>]\n"
                 async with lock:
                     if (sexy_chat_id, message.id) not in handled:
                         if is_join:
