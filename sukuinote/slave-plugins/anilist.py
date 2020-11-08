@@ -51,7 +51,6 @@ FORMAT_NAMES = {
     "ONA": "ONA",
     "MUSIC": "Music",
     "MANGA": "Manga",
-    "NOVEL": "Novel",
     "ONE_SHOT": "One Shot"
 }
 CHARACTER_QUERY = '''query ($id: Int, $search: String) {
@@ -75,7 +74,10 @@ async def generate_media(anilist):
     title_romaji = anilist['title']['romaji']
     title_english = anilist['title']['english']
     title_native = anilist['title']['native']
-    type = anilist['type'].capitalize()
+    if anilist['format'] == 'NOVEL':
+        type = 'Light Novel'
+    else:
+        type = anilist['type'].capitalize()
     format = anilist['format']
     format = FORMAT_NAMES.get(format, format)
     status = anilist['status'].replace('_', ' ').title()
