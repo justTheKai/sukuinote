@@ -38,7 +38,7 @@ async def log_user_joins(client, update, users, chats):
                 text = f"<b>{'User Join Event' if is_join else 'User Add Event'}</b>\n- <b>Chat:</b> "
                 atext = html.escape(chats[chat_id].title)
                 if getattr(chats[chat_id], 'username', None):
-                    atext = f'<a href="https://t.me/{chats[chat_id].username}">atext</a>'
+                    atext = f'<a href="https://t.me/{chats[chat_id].username}">{atext}</a>'
                 text += f"{atext} [<code>{sexy_chat_id}</code>]\n"
                 async with lock:
                     if (sexy_chat_id, message.id) not in handled:
@@ -50,7 +50,7 @@ async def log_user_joins(client, update, users, chats):
                             text += f'- <b>Adder:</b> {sexy_user_name(users[message.from_id])}\n- <b>Added Users:</b>\n'
                             for user in action.users:
                                 text += f'--- {sexy_user_name(users[user])}\n'
-                        await slave.send_message(config['config']['log_chat'], text)
+                        await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
                         handled.add((sexy_chat_id, message.id))
                         return
     raise ContinuePropagation
