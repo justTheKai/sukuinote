@@ -25,14 +25,17 @@ for i in json:
                     bot = await slave.get_me()
                     results = await client.get_inline_bot_results(bot.username or bot.id, i)
                     result = results.results[0]
+                    to_reply = message
+                    if not getattr(message.reply_to_message, 'empty', True):
+                        to_reply = message.reply_to_message
                     if result.type == 'photo':
                         file = Photo._parse(client, result.photo)
                     else:
                         file = Animation._parse(client, result.document, result.document.attributes, 'hello.mp4')
                     try:
-                        await message.reply_cached_media(file.file_id, file.file_ref, caption=result.send_message.message, parse_mode=None)
+                        await to_reply.reply_cached_media(file.file_id, file.file_ref, caption=result.send_message.message, parse_mode=None)
                     except Forbidden:
-                        await message.reply_text(result.send_message.message, parse_mode=None)
+                        await to_reply.reply_text(result.send_message.message, parse_mode=None)
                 return func
             func = _generate(i)
             globals()[i] = func
