@@ -1,4 +1,3 @@
-import html
 from pyrogram import Client, filters
 from pyrogram.errors.exceptions.forbidden_403 import Forbidden
 from .. import slave, config, help_dict, log_errors, public_log_errors
