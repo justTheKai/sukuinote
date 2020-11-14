@@ -30,7 +30,7 @@ async def help(client, message):
             await message.reply_text({'message': result.send_message.message, 'entities': result.send_message.entities}, parse_mode='through')
         else:
             text = 'Avaliable plugins:\n'
-            for i in help_dict:
+            for i in sorted(help_dict):
                 text += f'- {html.escape(help_dict[i][0])}\n'
             await message.reply_text(text)
 

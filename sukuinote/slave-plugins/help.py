@@ -24,7 +24,7 @@ async def main_help(client, inline_query):
     results = []
     parser = pyrogram_html.HTML(client)
     me = None
-    for internal_name in help_dict:
+    for internal_name in sorted(help_dict):
         external_name, help_text = help_dict[internal_name]
         if '{bot}' in help_text:
             if not me:
@@ -68,7 +68,7 @@ async def help_back(client, callback_query):
         if message_info.get(message_identifier, True):
             buttons = []
             to_append = []
-            for internal_name in help_dict:
+            for internal_name in sorted(help_dict):
                 external_name, _ = help_dict[internal_name]
                 to_append.append(InlineKeyboardButton(external_name, f'help_m{internal_name}'))
                 if len(to_append) > 2:
