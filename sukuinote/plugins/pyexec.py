@@ -68,4 +68,4 @@ async def pyexec(client, message):
         output = 'Executed'
     await reply.edit_text(output)
 
-help_dict['pyexec'] = ('Exec', '{prefix}exec <i>&lt;python code&gt;</i> - Executes python code')
+help_dict['exec'] = ('Exec', '{prefix}exec <i>&lt;python code&gt;</i> - Executes python code')
