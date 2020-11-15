@@ -80,7 +80,7 @@ async def generate_media(anilist):
         type = anilist['type'].capitalize()
     format = anilist['format']
     format = FORMAT_NAMES.get(format, format)
-    status = anilist['status'].replace('_', ' ').title()
+    status = (anilist['status'] or 'Unknown').replace('_', ' ').title()
     description = (anilist.get('description') or '').strip()
     episodes = anilist['episodes']
     duration = anilist['duration']
