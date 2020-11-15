@@ -11,9 +11,9 @@ from .. import session, app_user_ids, log_errors
 all_anilists = dict()
 anilists_lock = asyncio.Lock()
 
-MEDIA_QUERY = '''query ($id: Int, $search: String) {
+MEDIA_QUERY = '''query ($search: String) {
   Page (perPage: 10) {
-    media (id: $id, search: $search) {
+    media (search: $search) {
       id
       title {
         romaji
