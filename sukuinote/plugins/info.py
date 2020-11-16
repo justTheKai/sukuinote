@@ -1,5 +1,6 @@
 import html
 from pyrogram import Client, filters
+from pyrogram.errors.exceptions.bad_request_400 import MessageNotModified
 from .. import config, help_dict, get_entity, log_errors, public_log_errors
 
 ZWS = '\u200B'
@@ -59,7 +60,10 @@ async def info(client, message):
         text_unping += f'\n<b>Description:</b>\n{html.escape(entity.description.replace("@", "@" + ZWS))}'
     reply = await message.reply_text(text_unping, disable_web_page_preview=True)
     if text_ping != text_unping:
-        await reply.edit_text(text_ping, disable_web_page_preview=True)
+        try:
+            await reply.edit_text(text_ping, disable_web_page_preview=True)
+        except MessageNotModified:
+            pass
 
 @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command('id', prefixes=config['config']['prefixes']))
 @log_errors
