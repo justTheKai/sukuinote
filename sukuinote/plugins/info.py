@@ -9,8 +9,8 @@ def _generate_sexy(entity, ping):
         text = entity.first_name
         if entity.last_name:
             text += f' {entity.last_name}'
-    sexy_text = html.escape(text or 'Empty???')
-    if ping and entity.type in ('private', 'bot'):
+    sexy_text = html.escape(text or '') or '<code>[DELETED]</code>'
+    if ping and entity.type in ('private', 'bot') and text:
         sexy_text = f'<a href="tg://user?id={entity.id}">{sexy_text}</a>'
     elif entity.username:
         sexy_text = f'<a href="https://t.me/{entity.username}">{sexy_text}</a>'
