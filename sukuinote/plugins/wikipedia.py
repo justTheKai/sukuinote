@@ -22,12 +22,12 @@ async def wikipedia(client, message):
         return
     results = await client.get_inline_bot_results(bot.username or bot.id, 'w ' + query)
     if not results.results:
-        await message.reply_text('There are no definitions')
+        await message.reply_text('There are no resultss')
         return
     try:
         await message.reply_inline_bot_result(results.query_id, results.results[page].id)
     except IndexError:
-        await message.reply_text(f'There are only {len(results.results)} definitions')
+        await message.reply_text(f'There are only {len(results.results)} results')
     except Forbidden:
         await message.reply_text({'message': results.results[page].send_message.message, 'entities': results.results[page].send_message.entities}, disable_web_page_preview=True, parse_mode='through')
 
