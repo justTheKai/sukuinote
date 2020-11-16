@@ -22,7 +22,7 @@ async def wikipedia(client, message):
         return
     results = await client.get_inline_bot_results(bot.username or bot.id, 'w ' + query)
     if not results.results:
-        await message.reply_text('There are no resultss')
+        await message.reply_text('There are no results')
         return
     try:
         await message.reply_inline_bot_result(results.query_id, results.results[page].id)
