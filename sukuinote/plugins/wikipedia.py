@@ -10,7 +10,7 @@ async def wikipedia(client, message):
     query = message.command
     page = 1
     query.pop(0)
-    if query and query[0].isnumeric():
+    if len(query) > 1 and query[0].isnumeric():
         page = int(query.pop(0))
     page -= 1
     if page < 0:
