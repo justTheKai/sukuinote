@@ -39,7 +39,7 @@ async def anilist(client, message):
             await message.reply_text(text, disable_web_page_preview=True, parse_mode='through')
 
 help_dict['anilist'] = ('Anilist',
-'''{prefix}anilist <i>&lt;query&gt;</i> - Searches for anime/manga named <i>&lt;query&gt;</i> on Anilist
+'''{prefix}anilist <i>[page]</i> <i>&lt;query&gt;</i> - Searches for anime/manga named <i>&lt;query&gt;</i> on Anilist
 Aliases: {prefix}al
 Can also be activated inline with: @{bot} anilist <i>&lt;query&gt;</i> or @{bot} al <i>&lt;query&gt;</i>
 

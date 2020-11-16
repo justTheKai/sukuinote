@@ -32,6 +32,6 @@ async def ud(client, message):
         await message.reply_text({'message': results.results[page].send_message.message, 'entities': results.results[page].send_message.entities}, disable_web_page_preview=True, parse_mode='through')
 
 help_dict['ud'] = ('Urban Dictionary',
-'''{prefix}urbandictionary <i>&lt;query&gt;</i> - Gets the definition of <i>&lt;query&gt;</i> via Urban Dictionary
+'''{prefix}urbandictionary <i>[page]</i> <i>&lt;query&gt;</i> - Gets the definition of <i>&lt;query&gt;</i> via Urban Dictionary
 Aliases: {prefix}ud
 Can also be activated inline with: @{bot} urbandictionary <i>&lt;query&gt;</i> or @{bot} ud <i>&lt;query&gt;</i>''')

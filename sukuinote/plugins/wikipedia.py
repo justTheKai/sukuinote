@@ -32,6 +32,6 @@ async def wikipedia(client, message):
         await message.reply_text({'message': results.results[page].send_message.message, 'entities': results.results[page].send_message.entities}, disable_web_page_preview=True, parse_mode='through')
 
 help_dict['wikipedia'] = ('Wikipedia',
-'''{prefix}wikipedia <i>&lt;query&gt;</i> - Searches for <i>&lt;query&gt;</i> on Wikipedia
+'''{prefix}wikipedia <i>[page]</i> <i>&lt;query&gt;</i> - Searches for <i>&lt;query&gt;</i> on Wikipedia
 Aliases: {prefix}w, {prefix}wiki
 Can also be activated inline with: @{bot} wikipedia <i>&lt;query&gt;</i> or @{bot} wiki <i>&lt;query&gt;</i> or @{bot} w <i>&lt;query&gt;</i>''')
