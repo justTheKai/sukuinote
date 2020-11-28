@@ -48,4 +48,4 @@ else:
                 func = None
                 help_text += '{prefix}' + i.lower() + f' - Gets a {"gif" if "gif" in i else "picture"} of {i.lower()}\n'
             break
-    help_dict['nekos'] = ('Nekos.life', help_text + '\nCan also be activated inline with: @{bot} <i>&lt;command without dot&gt;</i>')
+    help_dict['nekos'] = ('Nekos.life', help_text + '\nCan also be activated inline with: @{bot} <i>&lt;command without prefix&gt;</i>')
