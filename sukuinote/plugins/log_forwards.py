@@ -71,5 +71,11 @@ async def log_forwards(client, message):
         if forwardee.is_scam:
             user_text += ' <code>[SCAM]</code>'
         text += f'{user_text} [<code>{forwardee.id}</code>]'
-        await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+        while True:
+            try:
+                await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+            except FloodWait as ex:
+                await asyncio.sleep(ex.x + 1)
+            else:
+                break
         logged.add(identifier)

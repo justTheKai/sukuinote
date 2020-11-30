@@ -67,6 +67,12 @@ async def log_reports(client, message):
             if mtext.strip():
                 text += ':'
             text += f'</a></b> {html.escape(mtext.strip()[:1000])}'
-        reply = await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+        while True:
+            try:
+                reply = await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+            except FloodWait as ex:
+                await asyncio.sleep(ex.x + 1)
+            else:
+                break
         reported.add(identifier)
         reported.add((reply.chat.id, reply.message_id))
