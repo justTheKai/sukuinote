@@ -38,7 +38,11 @@ async def info(client, message):
         entity = ' '.join(command)
     elif not getattr(message.reply_to_message, 'empty', True):
         entity = message.reply_to_message.from_user or message.reply_to_message.chat
-    entity, entity_client = await get_entity(client, entity)
+    try:
+        entity, entity_client = await get_entity(client, entity)
+    except Exception as ex:
+        await message.reply_text(f'{type(ex).__name__}: {str(ex)}', parse_mode=None)
+        return
     text_ping = _generate_sexy(entity, True)
     text_unping = _generate_sexy(entity, False)
     text_ping += f'\n<b>ID:</b> <code>{entity.id}</code>'
