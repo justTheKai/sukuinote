@@ -1,6 +1,7 @@
 import html
 import asyncio
 from pyrogram import Client, ContinuePropagation
+from pyrogram.errors.exceptions.flood_420 import FloodWait
 from pyrogram.raw.types import UpdateNewChannelMessage, UpdateNewMessage, MessageService, PeerChat, PeerChannel, MessageActionChatAddUser, MessageActionChatJoinedByLink
 from .. import config, log_errors, slave
 
@@ -50,7 +51,13 @@ async def log_user_joins(client, update, users, chats):
                             text += f'- <b>Adder:</b> {sexy_user_name(users[message.from_id])}\n- <b>Added Users:</b>\n'
                             for user in action.users:
                                 text += f'--- {sexy_user_name(users[user])}\n'
-                        await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+                        while True:
+                            try:
+                                await slave.send_message(config['config']['log_chat'], text, disable_web_page_preview=True)
+                            except FloodWait as ex:
+                                await asyncio.sleep(ex.x + 1)
+                            else:
+                                break
                         handled.add((sexy_chat_id, message.id))
                         return
     raise ContinuePropagation
