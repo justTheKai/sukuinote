@@ -1,6 +1,7 @@
 import re
 import html
 import asyncio
+from io import BytesIO
 from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors
 
@@ -21,7 +22,16 @@ async def shell(client, message):
         text += f'<code>{html.escape(stderr)}</code>\n'
     if stdout:
         text += f'<code>{html.escape(stdout)}</code>'
-    await reply.edit_text(text)
+
+    # send as a file if it's longer than 4096 bytes
+    if len(text) > 4096:
+        out = stderr.strip() + "\n" + stdout.strip()
+        f = BytesIO(out.strip().encode('utf-8'))
+        f.name = "output.txt"
+        await reply.delete()
+        await message.reply_document(f)
+    else:
+        await reply.edit_text(text)
 
 help_dict['shell'] = ('Shell',
 '''{prefix}sh <i>&lt;command&gt;</i> \\n <i>[stdin]</i> - Executes <i>&lt;command&gt;</i> in shell
