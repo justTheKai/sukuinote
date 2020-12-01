@@ -125,7 +125,7 @@ async def get_deai(client, entity):
     ntext.pop(0)
     if ntext:
         ntext.pop(0)
-    if ntext:
+    if ntext and not ntext[0].startswith('Anyway, they aren\'t fbanned in fed '):
         text = '- <b>Reason:</b> '
         ntext.pop(0)
         reason = '\n'.join(ntext).strip()
