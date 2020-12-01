@@ -39,7 +39,8 @@ async def translate(client, message):
     def _translate():
         while True:
             try:
-                return googletrans.Translator().translate(text, src=src_lang, dest=dest_lang)
+                # https://github.com/ssut/py-googletrans/issues/234#issuecomment-736314530
+                return googletrans.Translator(service_urls=['translate.googleapis.com']).translate(text, src=src_lang, dest=dest_lang)
             except AttributeError:
                 time.sleep(0.5)
     result = await client.loop.run_in_executor(None, _translate)

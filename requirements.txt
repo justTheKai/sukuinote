@@ -1,4 +1,6 @@
-googletrans
+# https://github.com/ssut/py-googletrans/issues/234#issuecomment-736314530
+git+https://github.com/alainrouillon/py-googletrans@feature/enhance-use-of-direct-api
+
 pyrogram
 tgcrypto
 requests
