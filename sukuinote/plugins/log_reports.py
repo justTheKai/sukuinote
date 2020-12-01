@@ -1,6 +1,7 @@
 import html
 import asyncio
 from pyrogram import Client, filters
+from pyrogram.errors.exceptions.flood_420 import FloodWait
 from .. import config, slave, log_errors
 
 reported = set()
