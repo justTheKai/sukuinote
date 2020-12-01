@@ -29,7 +29,7 @@ async def shell(client, message):
         f = BytesIO(out.strip().encode('utf-8'))
         f.name = "output.txt"
         await reply.delete()
-        await message.reply_document(f)
+        await message.reply_document(f, caption=f'<b>Exit Code:</b> <code>{returncode}</code>')
     else:
         await reply.edit_text(text)
 
