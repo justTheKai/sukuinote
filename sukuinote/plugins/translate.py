@@ -48,7 +48,7 @@ async def translate(client, message):
         text = 'They\'re the same'
     else:
         text = f'Translated from {result.src} to {result.dest}:\n{result.text[:4000]}'
-    await message.reply_text(text, parse_mode=None)
+    await message.reply_text(text, parse_mode=None, disable_web_page_preview=True)
 
 help_dict['translate'] = ('Translate',
 '''{prefix}translate <i>(as reply to text)</i> <i>[src]-[dest]</i> - Translates text and stuff
