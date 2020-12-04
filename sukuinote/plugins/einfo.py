@@ -31,7 +31,11 @@ DEAI_BAN_CODES = {
     "20": "Malware",
     "21": "Ban evasion",
     "22": "PM spam",
-    "23": "Spam adding members"
+    "23": "Spam adding members",
+    "24": "RESERVED",
+    "25": "RESERVED",
+    "26": "Raid initiation",
+    "27": "Raid participation"
 }
 DEAI_MODULE_CODES = {
     "0": "Gban",
