@@ -171,6 +171,8 @@ async def get_spam_protection(entity):
             return f'- <b>{resp.status}:</b> {html.escape(type(ex).__name__)}: {html.escape(str(ex))}'
     if json['success']:
         text = ''
+        if json['results']['private_telegram_id']:
+            text += f'- <b>PTID:</b> <code>' + json['results']['private_telegram_id'] + "</code>\n"
         if json['results']['attributes']['intellivoid_accounts_verified']:
             text += '- <b>Intellivoid Account Linked:</b> Yes\n'
         if json['results']['attributes']['is_potential_spammer']:
