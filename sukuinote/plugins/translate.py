@@ -5,6 +5,7 @@ from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors
 
 PROBLEM_CODES = set(i for i in googletrans.LANGUAGES if '-' in i)
+ZWS = '\u200B'
 
 @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['tr', 'translate'], prefixes=config['config']['prefixes']))
 @log_errors
@@ -45,10 +46,13 @@ async def translate(client, message):
                 time.sleep(0.5)
     result = await client.loop.run_in_executor(None, _translate)
     if result.text == text:
-        text = 'They\'re the same'
+        await message.reply_text('They\'re the same')
     else:
-        text = f'Translated from {result.src} to {result.dest}:\n{result.text[:4000]}'
-    await message.reply_text(text, parse_mode=None, disable_web_page_preview=True)
+        text_ping = f'Translated from {result.src} to {result.dest}:\n{result.text[:4000]}'
+        text_pingnt = f'Translated from {result.src} to {result.dest}:\n{result.text.replace("@", "@" + ZWS)[:4000]}'
+        reply = await message.reply_text(text_pingnt, parse_mode=None, disable_web_page_preview=True)
+        if text_ping != text_pingnt:
+            await reply.edit_text(text_ping, parse_mode=None, disable_web_page_preview=True)
 
 help_dict['translate'] = ('Translate',
 '''{prefix}translate <i>(as reply to text)</i> <i>[src]-[dest]</i> - Translates text and stuff
