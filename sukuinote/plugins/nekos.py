@@ -32,7 +32,7 @@ def _generate(i):
 try:
     resp = requests.get('https://nekos.life/api/v2/endpoints')
     json = resp.json()
-except Exception:
+except BaseException:
     logging.exception('Cannot connect to nekos.life')
 else:
     for i in json:

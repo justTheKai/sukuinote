@@ -19,7 +19,7 @@ async def ls(client, message):
             (folders if os.path.isdir(os.path.join(dir, i)) else files).append(i)
     except NotADirectoryError:
         text = f'<code>{html.escape(os.path.basename(dir))}</code>'
-    except Exception as ex:
+    except BaseException as ex:
         text = f'{type(ex).__name__}: {html.escape(str(ex))}'
     else:
         for i in folders:

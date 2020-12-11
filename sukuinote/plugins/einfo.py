@@ -95,7 +95,7 @@ async def get_spamwatch(entity):
     async with session.get(f'https://api.spamwat.ch/banlist/{entity}', headers={'Authorization': f'Bearer {config["config"]["spamwatch_api"]}'}) as resp:
         try:
             json = await resp.json()
-        except Exception as ex:
+        except BaseException as ex:
             return f'- <b>{resp.status}:</b> {html.escape(type(ex).__name__)}: {html.escape(str(ex))}'
     if 'code' in json:
         return f'- <b>{json["code"]}:</b> {html.escape(json.get("error", ""))}'
@@ -156,7 +156,7 @@ async def get_cas(entity):
     async with session.get(f'https://api.cas.chat/check?user_id={entity}') as resp:
         try:
             json = await resp.json()
-        except Exception as ex:
+        except BaseException as ex:
             return f'- <b>{resp.status}:</b> {html.escape(type(ex).__name__)}: {html.escape(str(ex))}'
     if json['ok']:
         return f'''- <b>Banned on:</b> {str(datetime.datetime.fromisoformat(json["result"]["time_added"][:-1]))}
@@ -167,7 +167,7 @@ async def get_spam_protection(entity):
     async with session.get(f'https://api.intellivoid.net/spamprotection/v1/lookup?query={entity}') as resp:
         try:
             json = await resp.json()
-        except Exception as ex:
+        except BaseException as ex:
             return f'- <b>{resp.status}:</b> {html.escape(type(ex).__name__)}: {html.escape(str(ex))}'
     if json['success']:
         text = ''

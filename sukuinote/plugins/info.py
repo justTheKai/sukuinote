@@ -40,7 +40,7 @@ async def info(client, message):
         entity = message.reply_to_message.from_user or message.reply_to_message.chat
     try:
         entity, entity_client = await get_entity(client, entity)
-    except Exception as ex:
+    except BaseException as ex:
         await message.reply_text(f'{type(ex).__name__}: {str(ex)}', parse_mode=None)
         return
     text_ping = _generate_sexy(entity, True)

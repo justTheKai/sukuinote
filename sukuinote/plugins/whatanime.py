@@ -76,7 +76,7 @@ async def whatanime(client, message):
                     file.seek(0)
                     try:
                         await reply.reply_video(file.name, caption=f'{from_time} - {to_time}')
-                    except Exception:
+                    except BaseException:
                         await reply.reply_text('Cannot send preview :/')
             await asyncio.gather(reply.edit_text(text, disable_web_page_preview=True), _send_preview())
 

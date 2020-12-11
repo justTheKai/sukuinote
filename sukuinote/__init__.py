@@ -94,17 +94,17 @@ def log_errors(func):
             await func(client, *args)
         except (StopPropagation, ContinuePropagation):
             raise
-        except Exception:
+        except BaseException:
             tb = traceback.format_exc()
             try:
                 await slave.send_message(config['config']['log_chat'], f'Exception occured in {func.__name__}\n\n{tb}', parse_mode=None)
-            except Exception:
+            except BaseException:
                 logging.exception('Failed to log exception for %s as slave', func.__name__)
                 tb = traceback.format_exc()
                 for app in apps:
                     try:
                         await app.send_message(config['config']['log_chat'], f'Exception occured in {func.__name__}\n\n{tb}', parse_mode=None)
-                    except Exception:
+                    except BaseException:
                         logging.exception('Failed to log exception for %s as app', func.__name__)
                         tb = traceback.format_exc()
                     else:
@@ -120,7 +120,7 @@ def public_log_errors(func):
             await func(client, message)
         except (StopPropagation, ContinuePropagation):
             raise
-        except Exception:
+        except BaseException:
             await message.reply_text(traceback.format_exc(), parse_mode=None)
             raise
     return wrapper
