@@ -1,4 +1,5 @@
 import html
+import asyncio
 from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors
 
@@ -49,6 +50,7 @@ async def purge(client, message):
     await client.delete_messages(message.chat.id, ids)
 
 yeetpurge_info = {True: dict(), False: dict()}
+yeetpurge_lock = asyncio.Lock()
 @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['yp', 'yeetpurge', 'syp', 'selfyeetpurge'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
@@ -58,21 +60,25 @@ async def yeetpurge(client, message):
         await message.delete()
         return
     info = yeetpurge_info['s' in message.command[0]]
-    if message.chat.id not in info:
-        resp = await message.reply_text('Reply to end destination')
-        info[message.chat.id] = (message.message_id, resp.message_id, reply.message_id, reply.outgoing)
-        return
-    og_message, og_resp, og_reply, og_reply_outgoing = info.pop(message.chat.id)
-    messages = set((og_message, og_resp, message.message_id))
-    thing = [og_reply, reply.message_id]
-    thing.sort()
-    thing0, thing1 = thing
-    if not ('s' in message.command[0] and not og_reply_outgoing):
-        messages.add(og_reply)
-    async for i in client.iter_history(message.chat.id, offset_id=thing1 + 1):
+    async with yeetpurge_lock:
+        if message.from_user.id not in info:
+            info[message.from_user.id] = dict()
+        info = info[message.from_user.id]
+        if message.chat.id not in info:
+            resp = await message.reply_text('Reply to end destination')
+            info[message.chat.id] = (message, reply, resp)
+            return
+        og_message, og_reply, og_resp = info.pop(message.chat.id)
+    messages = set((og_message.message_id, message.message_id, og_resp.message_id))
+    if not ('s' in message.command[0] and not og_reply.outgoing):
+        messages.add(og_reply.message_id)
+    if not ('s' in message.command[0] and not reply.outgoing):
+        messages.add(reply.message_id)
+    from_id, to_id = sorted((og_reply.message_id, reply.message_id))
+    async for i in client.iter_history(message.chat.id, offset_id=to_id):
         if not ('s' in message.command[0] and not i.outgoing):
             messages.add(i.message_id)
-        if thing0 + 1 >= i.message_id:
+        if from_id >= i.message_id:
             break
     await client.delete_messages(message.chat.id, messages)
 
