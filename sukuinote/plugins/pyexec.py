@@ -9,11 +9,15 @@ from io import StringIO, BytesIO
 from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, slave, apps, session, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.regex('^(?:' + '|'.join(map(re.escape, config['config']['prefixes'])) + r')exec\s+([\s\S]+)$'))
+PYEXEC_REGEX = '^(?:' + '|'.join(map(re.escape, config['config']['prefixes'])) + r')exec\s+([\s\S]+)$'
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.regex(PYEXEC_REGEX))
 @log_errors
 @public_log_errors
 async def pyexec(client, message):
-    code = message.matches[0].group(1).strip()
+    match = re.match(PYEXEC_REGEX, message.text.markdown)
+    if not match:
+        return
+    code = match.group(1).strip()
     class UniqueExecReturnIdentifier:
         pass
     tree = ast.parse(code)
