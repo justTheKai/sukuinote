@@ -7,7 +7,7 @@ from .. import config, slave, log_errors
 reported = set()
 lock = asyncio.Lock()
 
-@Client.on_message(filters.regex(r'(?:^|\s+)@admins?(?:$|\W+)|^[/!](?:report|admins?)(?:$|\W+)') & filters.group)
+@Client.on_message(~filters.chat(config['config']['log_chat']) & filters.regex(r'(?:^|\s+)@admins?(?:$|\W+)|^[/!](?:report|admins?)(?:$|\W+)') & filters.group)
 @log_errors
 async def log_reports(client, message):
     if not config['config']['log_reports']:

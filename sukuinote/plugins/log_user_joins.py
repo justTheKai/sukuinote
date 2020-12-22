@@ -29,6 +29,9 @@ async def log_user_joins(client, update, users, chats):
                     sexy_chat_id = -chat_id
                 else:
                     return
+                peer = await client.resolve_peer(config['config']['log_chat'])
+                if peer == message.to_id:
+                    return
                 is_join = isinstance(action, MessageActionChatJoinedByLink)
                 if not is_join:
                     is_join = action.users == [message.from_id]

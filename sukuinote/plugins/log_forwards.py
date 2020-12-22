@@ -7,7 +7,7 @@ from .. import config, slave, log_errors, app_user_ids
 logged = set()
 lock = asyncio.Lock()
 
-@Client.on_message(filters.incoming & filters.forwarded & (filters.group | filters.channel))
+@Client.on_message(~filters.chat(config['config']['log_chat']) & filters.incoming & filters.forwarded & (filters.group | filters.channel))
 @log_errors
 async def log_forwards(client, message):
     if not config['config'].get('log_forwards'):
