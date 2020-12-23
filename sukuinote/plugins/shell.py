@@ -20,8 +20,8 @@ async def shell(client, message):
     stdout, stderr = await process.communicate(stdin.encode() if stdin else None)
     returncode = process.returncode
     text = f'<b>Exit Code:</b> <code>{returncode}</code>\n'
-    stdout = stdout.decode().replace('\r', '').strip('\n')
-    stderr = stderr.decode().replace('\r', '').strip('\n')
+    stdout = stdout.decode().replace('\r', '').lstrip('\n')
+    stderr = stderr.decode().replace('\r', '').lstrip('\n')
     if stderr:
         text += f'<code>{html.escape(stderr)}</code>\n'
     if stdout:
