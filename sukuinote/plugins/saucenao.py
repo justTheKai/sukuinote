@@ -82,8 +82,9 @@ async def saucenao(client, message):
                                     pimg = json['body']['illust_details'].get(i)
                                     if pimg:
                                         if await download_file(pimg, filename, url):
-                                            to_image = True
-                                            break
+                                            if os.path.getsize(filename) < 10000000:
+                                                to_image = True
+                                                break
                     if await download_file(url, filename):
                         with open(filename) as file:
                             soup = BeautifulSoup(file.read())
