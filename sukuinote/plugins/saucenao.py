@@ -87,13 +87,15 @@ async def saucenao(client, message):
                         await download_file(result['header']['thumbnail'], filename)
                         to_image = True
             atext += '\n\n'
-            if len((await client.parser.parse(caption + atext))['message']) <= 1024:
+            if len((await client.parser.parse(caption + atext, 'html'))['message']) <= 1024:
                 caption += atext
             text += atext
         try:
             await message.reply_photo(filename, caption=caption)
         except Exception:
-            await message.reply_text(text)
+            await reply.edit_text(text)
+        else:
+            await reply.delete()
 
 help_dict['saucenao'] = ('saucenao',
 '''{prefix}saucenao <i>(as caption of Photo/GIF/Video/Sticker or reply)</i> - Reverse searches anime art, thanks to saucenao.com
