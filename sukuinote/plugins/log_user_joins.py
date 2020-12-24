@@ -34,7 +34,7 @@ async def log_user_joins(client, update, users, chats):
                     return
                 is_join = isinstance(action, MessageActionChatJoinedByLink)
                 if not is_join:
-                    is_join = action.users == [message.from_id.user_id]
+                    is_join = action.users == [getattr(message.from_id, 'user_id', None)]
                 if is_join and not config['config']['log_user_joins']:
                     raise ContinuePropagation
                 if not is_join and not config['config']['log_user_adds']:
