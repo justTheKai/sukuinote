@@ -2,7 +2,7 @@ import html
 import asyncio
 from pyrogram import Client, ContinuePropagation
 from pyrogram.errors.exceptions.flood_420 import FloodWait
-from pyrogram.raw.types import UpdateNewChannelMessage, UpdateNewMessage, MessageService, PeerChat, PeerChannel, MessageActionChatAddUser, MessageActionChatJoinedByLink
+from pyrogram.raw.types import UpdateNewChannelMessage, UpdateNewMessage, MessageService, PeerChat, PeerChannel, MessageActionChatAddUser, MessageActionChatJoinedByLink, PeerUser
 from .. import config, log_errors, slave
 
 def sexy_user_name(user):
@@ -46,12 +46,16 @@ async def log_user_joins(client, update, users, chats):
                 text += f"{atext} [<code>{sexy_chat_id}</code>]\n"
                 async with lock:
                     if (sexy_chat_id, message.id) not in handled:
+                        if isinstance(message.from_id, PeerUser):
+                            adder = sexy_user_name(users[message.from_id.user_id])
+                        else:
+                            adder = 'Anonymous'
                         if is_join:
-                            text += f'- <b>User:</b> {sexy_user_name(users[message.from_id])}\n'
+                            text += f'- <b>User:</b> {adder}\n'
                             if isinstance(action, MessageActionChatJoinedByLink):
                                 text += f'- <b>Inviter:</b> {sexy_user_name(users[action.inviter_id])}'
                         else:
-                            text += f'- <b>Adder:</b> {sexy_user_name(users[message.from_id])}\n- <b>Added Users:</b>\n'
+                            text += f'- <b>Adder:</b> {adder}\n- <b>Added Users:</b>\n'
                             for user in action.users:
                                 text += f'--- {sexy_user_name(users[user])}\n'
                         while True:
