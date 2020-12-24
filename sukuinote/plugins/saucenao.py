@@ -3,13 +3,16 @@ import html
 import asyncio
 import tempfile
 from decimal import Decimal
-from urllib.parse import urlparse, urlunparse, quote as urlencode
+from urllib.parse import urlparse, urlunparse, parse_qs, quote as urlencode
 from bs4 import BeautifulSoup
 from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors, session, get_file_mimetype, progress_callback, get_file_ext
 
-async def download_file(url, filename):
-    async with session.get(url) as resp:
+async def download_file(url, filename, referer=None):
+    headers = None
+    if referer:
+        headers = {'Referer': referer}
+    async with session.get(url, headers=headers) as resp:
         if resp.status != 200:
             return False
         with open(filename, 'wb') as file:
@@ -68,6 +71,18 @@ async def saucenao(client, message):
                 atext += f':</b> {html.escape(result["data"]["ext_urls"][0])}'
             if not to_image:
                 for url in result['data']['ext_urls']:
+                    if result['header']['index_id'] in (5, 6):
+                        parsed = urlparse(url)
+                        qs = parse_qs(parsed.query)
+                        if qs.get('illust_id'):
+                            async with session.get(f'https://www.pixiv.net/touch/ajax/illust/details?illust_id={urlencode(qs["illust_id"][0])}', headers={'Accept': 'application/json') as resp:
+                                json = await resp.json()
+                            for i in ('url_big', 'url', 'url_s', 'url_placeholder', 'url_ss'):
+                                pimg = json['body']['illust_details'].get(i)
+                                if pimg:
+                                    if await download_file(pimg, filename, url):
+                                        to_image = True
+                                        break
                     if await download_file(url, filename):
                         with open(filename) as file:
                             soup = BeautifulSoup(file.read())
@@ -103,6 +118,6 @@ async def saucenao(client, message):
         else:
             await reply.delete()
 
-help_dict['saucenao'] = ('saucenao',
+help_dict['saucenao'] = ('SauceNao',
 '''{prefix}saucenao <i>(as caption of Photo/GIF/Video/Sticker or reply)</i> - Reverse searches anime art, thanks to saucenao.com
 Aliases: {prefix}sauce''')
