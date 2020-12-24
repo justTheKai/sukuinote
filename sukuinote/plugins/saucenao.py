@@ -78,13 +78,16 @@ async def saucenao(client, message):
                             async with session.get(f'https://www.pixiv.net/touch/ajax/illust/details?illust_id={urlencode(qs["illust_id"][0])}', headers={'Accept': 'application/json'}) as resp:
                                 json = await resp.json()
                             if json['body']:
+                                to_break = False
                                 for i in ('url_big', 'url', 'url_s', 'url_placeholder', 'url_ss'):
                                     pimg = json['body']['illust_details'].get(i)
                                     if pimg:
                                         if await download_file(pimg, filename, url):
                                             if os.path.getsize(filename) < 10000000:
-                                                to_image = True
+                                                to_image = to_break = True
                                                 break
+                                if to_break:
+                                    break
                     if await download_file(url, filename):
                         with open(filename) as file:
                             soup = BeautifulSoup(file.read())
