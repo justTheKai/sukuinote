@@ -39,7 +39,7 @@ async def log_reports(client, message):
             if message.from_user.is_scam:
                 user_text += ' <code>[SCAM]</code>'
             user_text += f' [<code>{message.from_user.id}</code>]'
-        elif message.sender_chat.id != message.chat.id:
+        elif message.sender_chat and message.sender_chat.id != message.chat.id:
             user_text = html.escape(message.sender_chat.title)
             if message.sender_chat.username:
                 user_text = f'<a href="https://t.me/{message.sender_chat.username}">{user_text}</a>'
@@ -75,7 +75,7 @@ async def log_reports(client, message):
                 if reply.from_user.is_scam:
                     user_text += ' <code>[SCAM]</code>'
                 user_text += f' [<code>{reply.from_user.id}</code>]'
-            elif reply.sender_chat.id != reply.chat.id:
+            elif reply.sender_chat and reply.sender_chat.id != reply.chat.id:
                 user_text = html.escape(reply.sender_chat.title)
                 if reply.sender_chat.username:
                     user_text = f'<a href="https://t.me/{reply.sender_chat.username}">{user_text}</a>'
