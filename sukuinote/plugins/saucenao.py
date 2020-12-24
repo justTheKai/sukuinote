@@ -55,12 +55,14 @@ async def saucenao(client, message):
         minimum_similarity = Decimal(json['header']['minimum_similarity'])
         caption = text = ''
         to_image = False
+        to_thumbnail = None
         filename = os.path.join(tempdir, '0')
         for result in json['results']:
             if not result['data'].get('ext_urls'):
                 continue
             atext = f'<b>{html.escape(result["header"]["index_name"])}'
-            if Decimal(result['header']['similarity']) < minimum_similarity:
+            low_similarity = Decimal(result['header']['similarity']) < minimum_similarity
+            if low_similarity:
                 atext += ' (low similarity result)'
             atext += '</b>'
             atext += '\n<b>URL'
@@ -105,16 +107,19 @@ async def saucenao(client, message):
                                     to_image = True
                                     break
                 else:
-                    await download_file(result['header']['thumbnail'], filename)
-                    to_image = True
+                    if not to_thumbnail:
+                        to_thumbnail = result['header'].get('thumbnail')
             atext += '\n\n'
             length = len((await client.parser.parse(caption + atext, 'html'))['message'])
             if length <= 1024:
                 caption += atext
-            if length > 4096:
+            if length < 4096:
+                text += atext
+            elif low_similarity:
                 break
-            text += atext
         try:
+            if to_thumbnail and not to_image:
+                await download_file(to_thumbnail, filename)
             ext = await get_file_ext(filename)
             os.rename(filename, filename + ext)
             await message.reply_photo(filename + ext, caption=caption)
