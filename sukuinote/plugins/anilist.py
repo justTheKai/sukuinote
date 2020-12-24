@@ -34,7 +34,7 @@ async def anilist(client, message):
         text = {'message': results.results[page].send_message.message, 'entities': results.results[page].send_message.entities}
         try:
             photo = Photo._parse(client, results.results[page].photo)
-            await message.reply_cached_media(photo.file_id, photo.file_ref, caption=text, parse_mode='through')
+            await message.reply_cached_media(photo.file_id, caption=text, parse_mode='through')
         except Forbidden:
             await message.reply_text(text, disable_web_page_preview=True, parse_mode='through')
 

@@ -24,7 +24,7 @@ def _generate(i):
         else:
             file = Animation._parse(client, result.document, result.document.attributes, 'hello.mp4')
         try:
-            await to_reply.reply_cached_media(file.file_id, file.file_ref, caption=result.send_message.message, parse_mode=None)
+            await to_reply.reply_cached_media(file.file_id, caption=result.send_message.message, parse_mode=None)
         except Forbidden:
             await to_reply.reply_text(result.send_message.message, parse_mode=None)
     return func
