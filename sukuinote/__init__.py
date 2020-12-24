@@ -190,3 +190,14 @@ async def get_file_mimetype(filename):
         stdout, _ = await proc.communicate()
         mimetype = stdout.decode().strip()
     return mimetype or ''
+
+async def get_file_ext(filename):
+    proc = await asyncio.create_subprocess_exec('file', '--brief', '--extension', filename, stdout=asyncio.subprocess.PIPE)
+    stdout, _ = await proc.communicate()
+    ext = stdout.decode().strip().split('/', maxsplit=1)[0]
+    if not ext or ext == '???':
+        mimetype = await get_file_mimetype(filename)
+        ext = mimetypes.guess_extension(mimetype) or '.bin'
+    if not ext.startswith('.'):
+        ext = '.' + ext
+    return ext
