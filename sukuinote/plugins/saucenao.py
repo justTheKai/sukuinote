@@ -84,12 +84,8 @@ async def saucenao(client, message):
                                         to_image = True
                                         break
                     else:
-                        if result['data'].get('source'):
-                            if await download_file(result['data']['source'], filename):
-                                to_image = True
-                        if not to_image:
-                            await download_file(result['header']['thumbnail'], filename)
-                            to_image = True
+                        await download_file(result['header']['thumbnail'], filename)
+                        to_image = True
             atext += '\n\n'
             if len((await client.parser.parse(caption + atext))['message']) <= 1024:
                 caption += atext
