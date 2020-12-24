@@ -5,6 +5,7 @@ import logging
 import asyncio
 import traceback
 import functools
+import mimetypes
 import yaml
 import aiohttp
 from datetime import timedelta
@@ -181,3 +182,11 @@ async def progress_callback(current, total, reply, text, upload):
             prevtext = text
             last_edit_time = time.time()
             progress_callback_data[message_identifier] = last_edit_time, prevtext, start_time
+
+async def get_file_mimetype(filename):
+    mimetype = mimetypes.guess_type(filename)[0]
+    if not mimetype:
+        proc = await asyncio.create_subprocess_exec('file', '--brief', '--mime-type', filename, stdout=asyncio.subprocess.PIPE)
+        stdout, _ = await proc.communicate()
+        mimetype = stdout.decode().strip()
+    return mimetype or ''

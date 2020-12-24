@@ -11,6 +11,7 @@ config:
         - nezuko
     log_chat: -1001278205033
     spamwatch_api: https://t.me/SpamWatchBot
+    saucenao_api: https://saucenao.com/user.php?page=search-api
     log_user_joins: false
     log_user_adds: true
     log_reports: true
