@@ -27,17 +27,21 @@ async def log_reports(client, message):
         if message.chat.is_scam:
             chat_text += '<code>[SCAM]</code> '
         text += f'[<code>{message.chat.id}</code>]\n- <b>Reporter:</b> '
-        user_text = message.from_user.first_name
-        if message.from_user.last_name:
-            user_text += f' {message.from_user.last_name}'
-        user_text = '<code>[DELETED]</code>' if message.from_user.is_deleted else html.escape(user_text or 'Empty???')
-        if message.from_user.is_verified:
-            user_text += ' <code>[VERIFIED]</code>'
-        if message.from_user.is_support:
-            user_text += ' <code>[SUPPORT]</code>'
-        if message.from_user.is_scam:
-            user_text += ' <code>[SCAM]</code>'
-        text += f'{user_text} [<code>{message.from_user.id}</code>]\n'
+        if message.from_user:
+            user_text = message.from_user.first_name
+            if message.from_user.last_name:
+                user_text += f' {message.from_user.last_name}'
+            user_text = '<code>[DELETED]</code>' if message.from_user.is_deleted else html.escape(user_text or 'Empty???')
+            if message.from_user.is_verified:
+                user_text += ' <code>[VERIFIED]</code>'
+            if message.from_user.is_support:
+                user_text += ' <code>[SUPPORT]</code>'
+            if message.from_user.is_scam:
+                user_text += ' <code>[SCAM]</code>'
+            user_text += f' [<code>{message.from_user.id}</code>]'
+        else:
+            user_text = 'Anonymous'
+        text += f'{user_text}\n'
         start, end = message.matches[0].span()
         text += f'- <b><a href="{message.link}">Report Message'
         mtext = (message.text or message.caption or '').strip()
@@ -62,7 +66,7 @@ async def log_reports(client, message):
                     user_text += ' <code>[SCAM]</code>'
                 user_text += f' [<code>{reply.from_user.id}</code>]'
             else:
-                user_text = 'None???'
+                user_text = 'Anonymous'
             text += f'{user_text}\n- <b><a href="{reply.link}">Reported Message'
             mtext = reply.text or reply.caption or ''
             if mtext.strip():
