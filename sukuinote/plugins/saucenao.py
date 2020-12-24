@@ -107,7 +107,7 @@ async def saucenao(client, message):
                                     to_image = True
                                     break
                 else:
-                    if not to_thumbnail:
+                    if not to_thumbnail and not low_similarity:
                         to_thumbnail = result['header'].get('thumbnail')
             atext += '\n\n'
             length = len((await client.parser.parse(caption + atext, 'html'))['message'])
