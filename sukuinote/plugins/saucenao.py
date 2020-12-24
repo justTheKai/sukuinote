@@ -75,7 +75,7 @@ async def saucenao(client, message):
                         parsed = urlparse(url)
                         qs = parse_qs(parsed.query)
                         if qs.get('illust_id'):
-                            async with session.get(f'https://www.pixiv.net/touch/ajax/illust/details?illust_id={urlencode(qs["illust_id"][0])}', headers={'Accept': 'application/json') as resp:
+                            async with session.get(f'https://www.pixiv.net/touch/ajax/illust/details?illust_id={urlencode(qs["illust_id"][0])}', headers={'Accept': 'application/json'}) as resp:
                                 json = await resp.json()
                             for i in ('url_big', 'url', 'url_s', 'url_placeholder', 'url_ss'):
                                 pimg = json['body']['illust_details'].get(i)
