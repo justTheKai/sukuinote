@@ -39,6 +39,16 @@ async def log_reports(client, message):
             if message.from_user.is_scam:
                 user_text += ' <code>[SCAM]</code>'
             user_text += f' [<code>{message.from_user.id}</code>]'
+        elif message.sender_chat.id != message.chat.id:
+            user_text = html.escape(message.sender_chat.title)
+            if message.sender_chat.username:
+                user_text = f'<a href="https://t.me/{message.sender_chat.username}">{user_text}</a>'
+            if message.sender_chat.is_verified:
+                user_text += ' <code>[VERIFIED]</code>'
+            if message.sender_chat.is_support:
+                user_text += ' <code>[SUPPORT]</code>'
+            if message.sender_chat.is_scam:
+                user_text += ' <code>[SCAM]</code>'
         else:
             user_text = 'Anonymous'
         text += f'{user_text}\n'
@@ -65,6 +75,16 @@ async def log_reports(client, message):
                 if reply.from_user.is_scam:
                     user_text += ' <code>[SCAM]</code>'
                 user_text += f' [<code>{reply.from_user.id}</code>]'
+            elif reply.sender_chat.id != reply.chat.id:
+                user_text = html.escape(reply.sender_chat.title)
+                if reply.sender_chat.username:
+                    user_text = f'<a href="https://t.me/{reply.sender_chat.username}">{user_text}</a>'
+                if reply.sender_chat.is_verified:
+                    user_text += ' <code>[VERIFIED]</code>'
+                if reply.sender_chat.is_support:
+                    user_text += ' <code>[SUPPORT]</code>'
+                if reply.sender_chat.is_scam:
+                    user_text += ' <code>[SCAM]</code>'
             else:
                 user_text = 'Anonymous'
             text += f'{user_text}\n- <b><a href="{reply.link}">Reported Message'
