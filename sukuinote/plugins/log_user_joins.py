@@ -21,20 +21,20 @@ async def log_user_joins(client, update, users, chats):
         if isinstance(message, MessageService):
             action = message.action
             if isinstance(action, (MessageActionChatAddUser, MessageActionChatJoinedByLink)):
-                if isinstance(message.to_id, PeerChannel):
-                    chat_id = message.to_id.channel_id
+                if isinstance(message.peer_id, PeerChannel):
+                    chat_id = message.peer_id.channel_id
                     sexy_chat_id = int('-100' + str(chat_id))
-                elif isinstance(message.to_id, PeerChat):
-                    chat_id = message.to_id.chat_id
+                elif isinstance(message.peer_id, PeerChat):
+                    chat_id = message.peer_id.chat_id
                     sexy_chat_id = -chat_id
                 else:
                     return
                 peer = await client.resolve_peer(config['config']['log_chat'])
-                if peer == message.to_id:
+                if peer == message.peer_id:
                     return
                 is_join = isinstance(action, MessageActionChatJoinedByLink)
                 if not is_join:
-                    is_join = action.users == [message.from_id]
+                    is_join = action.users == [message.from_id.user_id]
                 if is_join and not config['config']['log_user_joins']:
                     raise ContinuePropagation
                 if not is_join and not config['config']['log_user_adds']:

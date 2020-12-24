@@ -1,7 +1,7 @@
 # https://github.com/ssut/py-googletrans/issues/234#issuecomment-736314530
 git+https://github.com/alainrouillon/py-googletrans@feature/enhance-use-of-direct-api
 
-pyrogram
+pyrogram>=1.1.3
 tgcrypto
 requests
 aiohttp>=3.7.1
