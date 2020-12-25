@@ -121,9 +121,13 @@ async def saucenao(client, message):
                 text += atext
             elif low_similarity:
                 break
+        if not text:
+            text = caption = 'No results found'
         try:
             if to_thumbnail and not to_image:
                 await download_file(to_thumbnail, filename)
+            elif not to_image:
+                raise Exception()
             ext = await get_file_ext(filename)
             os.rename(filename, filename + ext)
             await message.reply_photo(filename + ext, caption=caption)
