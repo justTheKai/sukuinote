@@ -6,6 +6,7 @@ from decimal import Decimal
 from urllib.parse import urlparse, urlunparse, parse_qs, quote as urlencode
 from bs4 import BeautifulSoup
 from pyrogram import Client, filters
+from pyrogram.types import Sticker
 from .. import config, help_dict, log_errors, public_log_errors, session, get_file_mimetype, progress_callback, get_file_ext
 
 async def download_file(url, filename, referer=None):
@@ -33,6 +34,9 @@ async def saucenao(client, message):
             media = reply.photo or reply.animation or reply.video or reply.sticker or reply.document
     if not media:
         await message.reply_text('Photo or GIF or Video or Sticker required')
+        return
+    if isinstance(media, Sticker) and sticker.is_animated:
+        await message.reply_text('No animated stickers')
         return
     with tempfile.TemporaryDirectory() as tempdir:
         reply = await message.reply_text('Downloading...')

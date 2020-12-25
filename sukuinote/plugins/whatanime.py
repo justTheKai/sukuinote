@@ -7,6 +7,7 @@ import tempfile
 from decimal import Decimal
 from urllib.parse import quote as urlencode
 from pyrogram import Client, filters
+from pyrogram.types import Sticker
 from .. import config, help_dict, log_errors, session, progress_callback, public_log_errors
 
 @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['trace', 'tracemoe', 'whatanime', 'wa', 'wait'], prefixes=config['config']['prefixes']))
@@ -20,6 +21,9 @@ async def whatanime(client, message):
             media = reply.photo or reply.animation or reply.video or reply.sticker or reply.document
     if not media:
         await message.reply_text('Photo or GIF or Video or Sticker required')
+        return
+    if isinstance(media, Sticker) and sticker.is_animated:
+        await message.reply_text('No animated stickers')
         return
     with tempfile.TemporaryDirectory() as tempdir:
         reply = await message.reply_text('Downloading...')
