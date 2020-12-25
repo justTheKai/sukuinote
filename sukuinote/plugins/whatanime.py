@@ -22,7 +22,7 @@ async def whatanime(client, message):
     if not media:
         await message.reply_text('Photo or GIF or Video or Sticker required')
         return
-    if isinstance(media, Sticker) and sticker.is_animated:
+    if isinstance(media, Sticker) and media.is_animated:
         await message.reply_text('No animated stickers')
         return
     with tempfile.TemporaryDirectory() as tempdir:
