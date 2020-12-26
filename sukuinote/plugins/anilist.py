@@ -43,6 +43,6 @@ help_dict['anilist'] = ('Anilist',
 Aliases: {prefix}al
 Can also be activated inline with: @{bot} anilist <i>&lt;query&gt;</i> or @{bot} al <i>&lt;query&gt;</i>
 
-{prefix}anilistc <i>&lt;query&gt;</i> - Searches for characters named <i>&lt;query&gt;</i> on Anilist
+{prefix}anilistc <i>[page]</i> <i>&lt;query&gt;</i> - Searches for characters named <i>&lt;query&gt;</i> on Anilist
 Aliases: {prefix}alc, alchar, alcharacter, anilistchar, anilistcharacter
 Can also be activated inline with: @{bot} anilistc <i>&lt;query&gt;</i> or @{bot} alc <i>&lt;query&gt;</i>''')
