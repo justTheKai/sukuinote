@@ -59,7 +59,7 @@ async def info(client, message):
     if entity.linked_chat:
         text_ping += f'\n<b>Linked Chat:</b> {_generate_sexy(entity.linked_chat, False)} [<code>{entity.linked_chat.id}</code>]'
         text_unping += f'\n<b>Linked Chat:</b> {_generate_sexy(entity.linked_chat, False)} [<code>{entity.linked_chat.id}</code>]'
-    if entity.description:
+    if entity.description or entity.bio:
         text_ping += f'\n<b>Description:</b>\n{html.escape(entity.description or entity.bio)}'
         text_unping += f'\n<b>Description:</b>\n{html.escape((entity.description or entity.bio).replace("@", "@" + ZWS))}'
     reply = await message.reply_text(text_unping, disable_web_page_preview=True)
