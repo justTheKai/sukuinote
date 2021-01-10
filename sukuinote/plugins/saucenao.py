@@ -136,6 +136,6 @@ async def saucenao(client, message):
         else:
             await reply.delete()
 
-help_dict['saucenao'] = ('SauceNao',
+help_dict['saucenao'] = ('SauceNAO',
 '''{prefix}saucenao <i>(as caption of Photo/GIF/Video/Sticker or reply)</i> - Reverse searches anime art, thanks to saucenao.com
 Aliases: {prefix}sauce''')
