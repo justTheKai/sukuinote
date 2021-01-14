@@ -34,9 +34,9 @@ async def whatanime(client, message):
         await reply.edit_text('Uploading...')
         with open(new_path, 'rb') as file:
             async with session.post('https://trace.moe/api/search', data={'image': file}) as resp:
-                json = await resp.json()
+                json = await resp.json(content_type=None)
     if isinstance(json, str):
-        await reply.edit_text(html.escape(json))
+        await reply.edit_text(json, parse_mode=None)
     else:
         try:
             match = json['docs'][0]
