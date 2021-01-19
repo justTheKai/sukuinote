@@ -134,7 +134,7 @@ async def get_deai(client, entity):
         ntext.pop(0)
         reason = '\n'.join(ntext).strip()
         text += html.escape(reason) or 'None'
-        match = re.match(r'(?:AIdetection:)?((?:0x\d{2} )+)risk:(\S+) mod:X([0-8])(?: cmt:(.+))?', reason)
+        match = re.match(r'(?:AIdetection:)?((?:0x\d{2} )+)risk:(\S+) mod:X([0-8]) eng:(\S+)(?: cmt:(.+))?', reason)
         if match:
             text += '\n- <b>Ban Codes:</b>\n'
             for i in match.group(1).split(' '):
@@ -143,7 +143,8 @@ async def get_deai(client, entity):
                     text += f'--- {i}\n'
             text += f'- <b>Risk Factor:</b> {match.group(2).capitalize()}\n'
             text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}'
-            comment = (match.group(4) or '').strip()
+            text += f'- <b>Engine:</b> {match.group(4).capitalize()}\n'
+            comment = (match.group(5) or '').strip()
             if comment:
                 text += f'\n- <b>Comment:</b> {html.escape(comment)}'
                 match = re.match(r'^banstack trigger:0x(\d{2})$', comment)
