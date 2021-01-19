@@ -198,7 +198,7 @@ async def get_spam_protection(entity):
         return text
     return f'- <b>{json["response_code"]}</b>: {json["error"]["error_code"]}: {json["error"]["type"]}: {html.escape(json["error"]["message"])}'
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.chat(['rsophiebot', 'missrose_bot']) & filters.incoming & filters.regex('^Federation ban info:\n|You ain\'t fbanned in this fed\.|^Failed to get user: unable to getChatMember: Bad Request: chat not found$|^.+ is not banned in this fed\.$|^.+ is currently banned in Rose Support Official, for the following reason:\n\n'))
+@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.chat(['rsophiebot', 'missrose_bot']) & filters.incoming & filters.regex('^Federation ban info:\n|You aren\'t fbanned in this fed\.|^Failed to get user: unable to getChatMember: Bad Request: chat not found$|^.+ is not banned in this fed\.$|^.+ is currently banned in Rose Support Official, for the following reason:\n\n'))
 async def fedstat_conversation_hack(client, message):
     reply = message.reply_to_message
     if not getattr(reply, 'empty', True):
