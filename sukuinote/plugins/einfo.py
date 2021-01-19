@@ -143,7 +143,7 @@ async def get_deai(client, entity):
                     text += f'--- {i}\n'
             text += f'- <b>Risk Factor:</b> {match.group(2).capitalize()}\n'
             text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}\n'
-            text += f'- <b>Engine:</b> {match.group(4).capitalize()}\n'
+            text += f'- <b>Engine:</b> {match.group(4).capitalize()}'
             comment = (match.group(5) or '').strip()
             if comment:
                 text += f'\n- <b>Comment:</b> {html.escape(comment)}'
