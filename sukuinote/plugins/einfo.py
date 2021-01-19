@@ -134,7 +134,7 @@ async def get_deai(client, entity):
         ntext.pop(0)
         reason = '\n'.join(ntext).strip()
         text += html.escape(reason) or 'None'
-        match = re.match(r'(?:AIdetection:)?((?:0x\d{2} )+)risk:(\S+) mod:X([0-8]) eng:(\S+)(?: cmt:(.+))?', reason)
+        match = re.match(r'(?:AIdetection:)?((?:0x\d{2} )+)risk:(\S+) mod:X([0-8])(?: eng:(\S+))?(?: cmt:(.+))?', reason)
         if match:
             text += '\n- <b>Ban Codes:</b>\n'
             for i in match.group(1).split(' '):
@@ -142,8 +142,10 @@ async def get_deai(client, entity):
                     i = DEAI_BAN_CODES.get(i.strip()[2:], i.strip())
                     text += f'--- {i}\n'
             text += f'- <b>Risk Factor:</b> {match.group(2).capitalize()}\n'
-            text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}\n'
-            text += f'- <b>Engine:</b> {match.group(4).capitalize()}'
+            text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}'
+            engine = (match.group(4) or '').strip()
+            if engine:
+                text += f'\n- <b>Engine:</b> {engine.capitalize()}'
             comment = (match.group(5) or '').strip()
             if comment:
                 text += f'\n- <b>Comment:</b> {html.escape(comment)}'
