@@ -142,7 +142,7 @@ async def get_deai(client, entity):
                     i = DEAI_BAN_CODES.get(i.strip()[2:], i.strip())
                     text += f'--- {i}\n'
             text += f'- <b>Risk Factor:</b> {match.group(2).capitalize()}\n'
-            text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}'
+            text += f'- <b>Module:</b> {DEAI_MODULE_CODES.get(match.group(3), match.group(3))}\n'
             text += f'- <b>Engine:</b> {match.group(4).capitalize()}\n'
             comment = (match.group(5) or '').strip()
             if comment:
