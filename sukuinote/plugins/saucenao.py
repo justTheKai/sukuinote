@@ -23,7 +23,7 @@ async def download_file(url, filename, referer=None):
                     return True
                 file.write(chunk)
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['saucenao', 'sauce'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['saucenao', 'sauce'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def saucenao(client, message):

@@ -10,7 +10,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Sticker
 from .. import config, help_dict, log_errors, session, progress_callback, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['trace', 'tracemoe', 'whatanime', 'wa', 'wait'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['trace', 'tracemoe', 'whatanime', 'wa', 'wait'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def whatanime(client, message):

@@ -9,7 +9,7 @@ from .. import config, help_dict, log_errors, session, slave, public_log_errors
 help_text = ''
 
 def _generate(i):
-    @Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(i, prefixes=config['config']['prefixes']))
+    @Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(i, prefixes=config['config']['prefixes']))
     @log_errors
     @public_log_errors
     async def func(client, message):

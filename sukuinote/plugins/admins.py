@@ -25,7 +25,7 @@ def _generate_sexy(entity, ping):
         sexy_text += ' <code>[SCAM]</code>'
     return sexy_text
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['admin', 'admins'], prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['admin', 'admins'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def admins(client, message):

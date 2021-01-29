@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from pyrogram.errors.exceptions.forbidden_403 import Forbidden
 from .. import slave, config, help_dict, log_errors, public_log_errors
 
-@Client.on_message(~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command('help', prefixes=config['config']['prefixes']))
+@Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command('help', prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
 async def help(client, message):
