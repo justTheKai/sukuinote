@@ -18,6 +18,16 @@ async def delete(client, message):
                 break
     await client.delete_messages(message.chat.id, messages)
 
+@Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['da', 'deleteall'], prefixes=config['config']['prefixes']))
+@log_errors
+@public_log_errors
+async def deleteall(client, message):
+    await message.delete()
+    reply = message.reply_to_message
+    if getattr(reply, 'empty', True) or not reply.from_user or not reply.from_user.id:
+        return
+    await client.delete_user_history(message.chat.id, reply.from_user.id)
+
 @Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['p', 'purge', 'sp', 'selfpurge'], prefixes=config['config']['prefixes']))
 @log_errors
 @public_log_errors
@@ -96,4 +106,7 @@ Aliases: {prefix}sp
 Aliases: {prefix}yp
 
 {prefix}selfyeetpurge <i>(as reply to a message)</i> - {prefix}yp but only your messages
-Aliases: {prefix}syp''')
+Aliases: {prefix}syp
+
+{prefix}deleteall <i>(as reply to a message)</i> - Deletes all of the replied to user's messages
+Aliases: {prefix}da''')
