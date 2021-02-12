@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from .. import config, help_dict, log_errors, public_log_errors, get_entity
 
 ZWS = '\u200B'
-def _generate_sexy(entity, ping):
+def _generate_sexy(entity, ping, is_creator):
     text = entity.first_name
     if entity.last_name:
         text += f' {entity.last_name}'
@@ -23,6 +23,8 @@ def _generate_sexy(entity, ping):
         sexy_text += ' <code>[SUPPORT]</code>'
     if entity.is_scam:
         sexy_text += ' <code>[SCAM]</code>'
+    if is_creator:
+        sexy_text += ' <code>[CREATOR]</code>'
     return sexy_text
 
 @Client.on_message(~filters.forwarded & ~filters.sticker & ~filters.via_bot & ~filters.edited & filters.me & filters.command(['admin', 'admins'], prefixes=config['config']['prefixes']))
@@ -41,8 +43,8 @@ async def admins(client, message):
         chat, entity_client = await get_entity(client, chat)
     text_unping = text_ping = ''
     async for i in entity_client.iter_chat_members(chat.id, filter='administrators'):
-        text_unping += f'\n[<code>{i.user.id}</code>] {_generate_sexy(i.user, False)}'
-        text_ping += f'\n[<code>{i.user.id}</code>] {_generate_sexy(i.user, True)}'
+        text_unping += f'\n[<code>{i.user.id}</code>] {_generate_sexy(i.user, False, i.status == "creator")}'
+        text_ping += f'\n[<code>{i.user.id}</code>] {_generate_sexy(i.user, True, i.status == "creator")}'
         if i.title:
             text_unping += f' // {html.escape(i.title.replace("@", "@" + ZWS))}'
             text_ping += f' // {html.escape(i.title)}'
